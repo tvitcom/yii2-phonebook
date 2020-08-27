@@ -1,0 +1,8 @@
+*
+!.gitignore
+!/_params.php
+!/_db.php
+!/_web.php
+!/console.php
+!/test.php
+!/test_db.php
