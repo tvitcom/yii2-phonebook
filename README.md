@@ -25,11 +25,15 @@ CVS: Git
 
 ##### Setup
 
+```sh
 ssh-add id_rsa_macuser
 cd .../[Your_WWW]/approot
 git clone ssh://git@projectapp.top:17777/~git/testcase/macuser.git .
 php composer.phar update
-!!!setup new user 'macuser' and database 'macuser' for db
-change approot/config.php
+```
 
-
+Setup new user and database.
+Change filename from _db.php to approot/config/db.php
+change filename from _params.php to approot/config/params.php
+change filename from _web.php to approot/config/web.php
+and setup the appropriate settings
