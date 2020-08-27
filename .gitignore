@@ -1,0 +1,114 @@
+# ide
+/.idea
+/nbproject/
+*.sublime-project
+*.sublime-workspace
+*.komodoproject
+
+
+# zend studio for eclipse project files
+.buildpath
+.project
+.settings
+
+# OS caches files
+Thumbs.db
+ehthumbs.db
+**/.DS_Store
+
+# composer vendor dir
+/vendor
+composer.phar
+
+# phpunit 
+/codeception.yml
+!/codeception.yml
+phpunit.phar
+/phpunit.xml
+tests/_output/*
+tests/_support/_generated
+
+# secure files
+/config/
+!/config/_params.php
+!/config/_db.php
+!/config/_web.php
+/data/
+!/data/db_init.sql
+
+# ignore all files starting with . or ~
+.env
+.git
+.svn
+~*
+
+# ignore node dependency directories
+/node_modules
+**/node_modules/
+npm-debug.log
+
+# ignore packaged files
+*.7z
+*.dmg
+*.dmp
+*.damp
+*.tar
+*.gz
+*.xz
+*.iso
+*.jar
+*.rar
+*.zip
+
+# critical bussiness files
+*.pdf
+*.txt
+*.xls
+*.xlsx
+*.ods
+*.odt
+*.doc
+*.docx
+
+# ignore log, data files and databases
+*.csv
+*.csv~
+*.csv.swp
+*.log
+*.log~
+*.log.swp
+*.sql
+*.sql~
+*.sql.swp
+*.bkp
+*.bkp~
+*.bkp.swp
+*.sqlite
+*.sqlite~
+*.sqlite.swp
+
+# track these files, if they exist
+!.gitignore
+!.editorconfig
+!README.md
+!LICENSE
+!LICENSE.md
+!LICENSE.txt
+!licanses.txt
+!LICENSE.TXT
+!CHANGELOG.md
+!composer.json
+!composer.lock
+
+# Containerisation (will make files without '_' prefix)
+/vagrant
+!_containers.yaml
+!docker-compose.yml
+!_docker-compose.yml
+!Dockerfile
+!_Dockerfile
+
+# track favicon files, if they exist
+!favicon*.png
+!favicon*.ico
+!manifest.json
