@@ -63,6 +63,7 @@ npm-debug.log
 # critical bussiness files
 *.pdf
 *.txt
+!**/*robots.txt
 *.xls
 *.xlsx
 *.ods
