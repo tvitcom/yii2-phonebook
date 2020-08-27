@@ -29,10 +29,6 @@ tests/_output/*
 tests/_support/_generated
 
 # secure files
-/config/
-!/config/_params.php
-!/config/_db.php
-!/config/_web.php
 /data/
 !/data/db_init.sql
 
