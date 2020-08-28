@@ -26,6 +26,7 @@ CVS: Git
 ##### Setup
 
 ```sh
+eval $(ssh-agent -s)
 ssh-add id_rsa_macuser
 cd .../[Your_WWW]/approot
 git clone ssh://git@projectapp.top:17777/~git/testcase/macuser.git .
