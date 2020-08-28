@@ -9,30 +9,36 @@ use yii\widgets\Pjax;
 $this->title = 'People';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="person-index">
+<div class="container-fluid">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <div class="person-index col-xs-12 col-sm-6 col-md-8">
 
-    <p>
-        <?= Html::a('Create Person', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+        <h1><?= Html::encode($this->title) ?></h1>
 
-    <?php Pjax::begin(); ?>
+        <p>
+            <?= Html::a('Create Person', ['create'], ['class' => 'btn btn-success']) ?>
+        </p>
 
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+        <?php Pjax::begin(); ?>
 
-            'person_id',
-            'name',
-            'surname',
-            'note:ntext',
+        <?= GridView::widget([
+            'dataProvider' => $dataProviderPersons,
+            'columns' => [
+                ['class' => 'yii\grid\SerialColumn'],
 
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
+                // 'person_id',
+                'name',
+                'surname',
+                // 'note:ntext',
 
-    <?php Pjax::end(); ?>
+                ['class' => 'yii\grid\ActionColumn'],
+            ],
+        ]); ?>
 
+        <?php Pjax::end(); ?>
+
+    </div>
+    <div class="col-xs-6 col-md-4">
+
+    </div>
 </div>

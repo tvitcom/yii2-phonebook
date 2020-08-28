@@ -29,8 +29,8 @@ tests/_output/*
 tests/_support/_generated
 
 # secure files
-/data/
-!/data/db_init.sql
+/info
+/web/123.php*
 
 # ignore all files starting with . or ~
 .env

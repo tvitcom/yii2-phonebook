@@ -37,3 +37,13 @@ Change filename from _db.php to approot/config/db.php
 change filename from _params.php to approot/config/params.php
 change filename from _web.php to approot/config/web.php
 and setup the appropriate settings
+
+Import data/init.sql
+
+##### Credentials
+ 
+Login: user
+Password: user
+
+Login: demo
+Password: demo

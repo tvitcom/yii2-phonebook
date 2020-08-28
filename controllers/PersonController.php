@@ -4,6 +4,8 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Person;
+use app\models\Phonenumber;
+use yii\filters\AccessControl;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -14,16 +16,28 @@ use yii\filters\VerbFilter;
  */
 class PersonController extends Controller
 {
-    /**
+
+     /**
      * {@inheritdoc}
      */
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index', 'view', 'create', 'update', 'delete'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index', 'view', 'create', 'update', 'delete'],
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['POST'],
+                    'logout' => ['post'],
                 ],
             ],
         ];
@@ -35,12 +49,17 @@ class PersonController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Person::find(),
+        $dataProviderPersons = new ActiveDataProvider([
+            'query' => Person::find()->where(['user_id' => Yii::$app->user->identity->id]),
+            'pagination' => [
+                 'forcePageParam' => false,
+                 'pageSizeParam' => false,
+                'pageSize' => 60
+            ]
         ]);
-
+        
         return $this->render('index', [
-            'dataProvider' => $dataProvider,
+            'dataProviderPersons' => $dataProviderPersons,
         ]);
     }
 
@@ -52,8 +71,18 @@ class PersonController extends Controller
      */
     public function actionView($id)
     {
+        $dataProviderPhonenumbers = new ActiveDataProvider([
+            'query' => Phonenumber::find()->where(['person_id' => $id]),
+            'pagination' => [
+                 'forcePageParam' => false,
+                 'pageSizeParam' => false,
+                'pageSize' => 20
+            ]
+        ]);
+        
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'dataProviderPhonenumbers' => $dataProviderPhonenumbers,
         ]);
     }
 
@@ -65,7 +94,6 @@ class PersonController extends Controller
     public function actionCreate()
     {
         $model = new Person();
-
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->person_id]);
         }
@@ -84,14 +112,21 @@ class PersonController extends Controller
      */
     public function actionUpdate($id)
     {
+        $dataPhonesProvider = new ActiveDataProvider([
+            'query' => Phonenumber::find()->where(['person_id' => $id]),
+            'pagination' => [
+                'pageSize' => 20,
+            ],
+        ]);
         $model = $this->findModel($id);
-
+        
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->person_id]);
         }
 
         return $this->render('update', [
             'model' => $model,
+            'dataPhonesProvider' => $dataPhonesProvider,
         ]);
     }
 

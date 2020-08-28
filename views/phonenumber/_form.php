@@ -11,11 +11,9 @@ use yii\widgets\ActiveForm;
 <div class="phonenumber-form">
 
     <?php $form = ActiveForm::begin(); ?>
-
-    <?= $form->field($model, 'id_phonenumber')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'id_person')->textInput(['maxlength' => true]) ?>
-
+ 	
+ 	<?= $form->field($model, 'person_id')->hiddenInput(['value' => $model->person_id])->label(false) ?>
+    
     <?= $form->field($model, 'number')->textInput() ?>
 
     <div class="form-group">

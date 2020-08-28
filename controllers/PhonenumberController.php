@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Phonenumber;
+use yii\filters\AccessControl;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -20,6 +21,17 @@ class PhonenumberController extends Controller
     public function behaviors()
     {
         return [
+             'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index', 'view', 'create', 'update', 'delete'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index', 'view', 'create', 'update', 'delete'],
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -35,8 +47,20 @@ class PhonenumberController extends Controller
      */
     public function actionIndex()
     {
+        $sql = '
+        SELECT ph.phonenumber_id, ph.number 
+        FROM phonenumber ph
+        INNER JOIN person p ON ph.person_id = p.person_id
+        WHERE p.user_id = :user_id 
+        ';
+
         $dataProvider = new ActiveDataProvider([
-            'query' => Phonenumber::find(),
+            'query' => Phonenumber::findBySql($sql, [':user_id' => Yii::$app->user->identity->id]),
+            'pagination' => [
+                'forcePageParam' => false,
+                'pageSizeParam' => false,
+                'pageSize' => 60
+            ],
         ]);
 
         return $this->render('index', [
@@ -62,13 +86,23 @@ class PhonenumberController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($person_id)
     {
         $model = new Phonenumber();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_phonenumber]);
+        if (Yii::$app->request->isPost) {
+
+            $loaded = $model->load(Yii::$app->request->post());
+            $model->validate();
+            
+            // var_dump($model->getErrors());
+            
+            if ($model->save()) 
+                return $this->redirect(['person/view', 'id' => $model->person_id]);
+
         }
+
+        $model->person_id = $person_id;
 
         return $this->render('create', [
             'model' => $model,
@@ -85,9 +119,12 @@ class PhonenumberController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $ph = Phonenumber::find()
+            ->where(['phonenumber_id' => $id])
+            ->one();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_phonenumber]);
+            return $this->redirect(['person/view', 'id' => $ph->person_id]);
         }
 
         return $this->render('update', [
@@ -105,8 +142,15 @@ class PhonenumberController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
+        $ph = Phonenumber::find()
+            ->where(['phonenumber_id' => $id])
+            ->andWhere(['=', 'phonenumber_id', Yii::$app->user->identity->id ])
+            ->one();
 
-        return $this->redirect(['index']);
+        if ($ph)
+            return $this->redirect(['person/view', 'id' => $ph->person_id]);
+        else
+            return $this->redirect(['person/index']);
     }
 
     /**

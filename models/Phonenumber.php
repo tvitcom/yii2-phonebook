@@ -7,12 +7,13 @@ use Yii;
 /**
  * This is the model class for table "phonenumber".
  *
- * @property int $id_person
- * @property int $id_phonenumber
+ * @property int $person_id
+ * @property int $phonenumber_id
  * @property int $number
  */
 class Phonenumber extends \yii\db\ActiveRecord
 {
+    const DEFAULT_PHONE_COUNTRYPREFIX = '380';
     /**
      * {@inheritdoc}
      */
@@ -27,9 +28,14 @@ class Phonenumber extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_phonenumber', 'id_person', 'number'], 'required'],
-            [['id_phonenumber', 'id_person', 'number'], 'integer'],
-            [['id_phonenumber'], 'unique'],
+            [['person_id', 'number'], 'required'],
+            [['number'], 'string' ,'min' => 9, 'max' => 14 ],
+            [['phonenumber_id', 'person_id'], 'integer'],
+            ['number', 'filter', 'filter' => function ($value) {
+                return (string)preg_replace('#\D#u', '', $value);
+            }],
+            [['phonenumber_id'], 'unique'],
+            // [['person_id'], 'exist', 'skipOnError' => true, 'targetClass' => Person::className(), 'targetAttribute' => ['person_id' => 'person_id']],
         ];
     }
 
@@ -39,8 +45,8 @@ class Phonenumber extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id_phonenumber' => 'Id Phonenumber',
-            'id_person' => 'Id Person',
+            'phonenumber_id' => 'Id Phonenumber',
+            'person_id' => 'Id Person',
             'number' => 'Number',
         ];
     }

@@ -2,6 +2,9 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\widgets\ListView;
+use yii\widgets\Pjax;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Person */
@@ -11,7 +14,8 @@ $this->params['breadcrumbs'][] = ['label' => 'People', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
-<div class="person-view">
+<div class="container-fluid">
+    <div class="phonenumber-view col-xs-12 col-sm-6 col-md-8">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -36,4 +40,25 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 
+    </div>
+    
+   <div class="col-xs-6 col-md-4">
+        
+        <h2>Phones</h2>
+
+        <ul class="list-group">
+          
+            <?= ListView::widget([
+                'dataProvider' => $dataProviderPhonenumbers,
+                'itemView' => '_list_phones',
+            ]);?>
+
+        </ul>
+
+        <?= Html::a('Add number', ['phonenumber/create', 'person_id' => $model->person_id], ['class' => 'btn btn-default']) ?>
+
+    </div>
+
+    </div>
+    
 </div>

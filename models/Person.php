@@ -2,7 +2,9 @@
 
 namespace app\models;
 
+
 use Yii;
+use yii\behaviors\BlameableBehavior;
 
 /**
  * This is the model class for table "person".
@@ -23,17 +25,29 @@ class Person extends \yii\db\ActiveRecord
         return 'person';
     }
 
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => BlameableBehavior::className(),
+                'createdByAttribute' => 'user_id',
+                'updatedByAttribute' => 'user_id',
+            ],
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['name', 'surname', 'note'], 'required'],
-            [['person_id','person_id'], 'integer'],
-            [['note'], 'string'],
-            [['name', 'surname'], 'string', 'max' => 32],
+            [['name'], 'required'],
+            [['person_id','user_id'], 'integer'],
             [['person_id'], 'unique'],
+            [['note'], 'string', 'max' => 2048],
+            [['name'], 'string', 'min'=>2, 'max' => 32],
+            [['surname'], 'string', 'max' => 32],
         ];
     }
 

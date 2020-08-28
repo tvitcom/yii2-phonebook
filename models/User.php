@@ -9,13 +9,14 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
     public $password;
     public $authKey;
     public $accessToken;
+    
     const USER_PHONENUMBER_LIMIT = 20;
     
     private static $users = [
         '100' => [
             'id' => '100',
-            'username' => 'admin',
-            'password' => 'admin',
+            'username' => 'user',
+            'password' => 'user',
             'authKey' => 'test100key',
             'accessToken' => '100-token',
         ],

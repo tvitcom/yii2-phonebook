@@ -6,6 +6,7 @@ $db = require __DIR__ . '/db.php';
 $config = [
     'id' => 'basic',
     'name' => 'My Phonebook',
+    'homeUrl' => '/person/index',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'aliases' => [
@@ -15,7 +16,12 @@ $config = [
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-            'cookieValidationKey' => '2MWnFO3n-IlipH0AIMRNx1gHGaIJ4DEm',
+            'cookieValidationKey' => 'xxxxxxxxx-xxxxxxxxxxxxxxxxxx',
+            'csrfParam' => '_CSRF',
+            'csrfCookie' => [
+                'httpOnly' => true,
+                'path' => '/',
+            ],
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
