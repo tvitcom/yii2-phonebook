@@ -18,10 +18,12 @@
 
 ##### Prerequisites
 
-Runtime: PHP 7.x, Compposer.phar
+```sh
+RUNTIME: PHP 7.x, Composer.phar
+WEBSERVER: Apache/Nginx
 DB: Mysql
-HttpServer: Apache/Nginx
 CVS: Git
+```
 
 ##### Setup
 
@@ -29,7 +31,7 @@ CVS: Git
 eval $(ssh-agent -s)
 ssh-add id_rsa_macuser
 cd .../[Your_WWW]/approot
-git clone ssh://git@projectapp.top:17777/~git/testcase/macuser.git .
+git clone [current_code_reposytory] .
 php composer.phar update
 ```
 
