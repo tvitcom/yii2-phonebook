@@ -14,7 +14,7 @@ use Yii;
 class Phonenumber extends \yii\db\ActiveRecord
 {
     const DEFAULT_PHONE_COUNTRYPREFIX = '380';
-    const LIMIT_PHONENUMBERS_FOR_PERSON_ID = 20;
+    const LIMIT_PHONENUMBERS_FOR_PERSON_ID = 10;
     /**
      * {@inheritdoc}
      */

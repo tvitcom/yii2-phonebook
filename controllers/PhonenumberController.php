@@ -93,8 +93,9 @@ class PhonenumberController extends Controller
         if (Yii::$app->request->isPost) {
 
             //Check the rule: items max (20)
-            if ((int)Phonenumber::countOwn($person_id) > Phonenumber::LIMIT_PHONENUMBERS_FOR_PERSON_ID-1)
-                throw new NotFoundHttpException('Sorry. Allow max 20 items.');
+            $max_items = Phonenumber::LIMIT_PHONENUMBERS_FOR_PERSON_ID;
+            if ((int)Phonenumber::countOwn($person_id) > $max_items-1)
+                throw new NotFoundHttpException('Sorry. Allow max ' . $max_items .' items.');
             
             $loaded = $model->load(Yii::$app->request->post());
             $model->validate();
