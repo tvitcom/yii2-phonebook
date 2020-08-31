@@ -14,6 +14,7 @@ use Yii;
 class Phonenumber extends \yii\db\ActiveRecord
 {
     const DEFAULT_PHONE_COUNTRYPREFIX = '380';
+    const LIMIT_PHONENUMBERS_FOR_PERSON_ID = 20;
     /**
      * {@inheritdoc}
      */
@@ -49,5 +50,14 @@ class Phonenumber extends \yii\db\ActiveRecord
             'person_id' => 'Id Person',
             'number' => 'Number',
         ];
+    }
+
+    /* 
+     * Get count of current person_id
+     * @return string
+     */
+    public static function countOwn($id) {
+        return Yii::$app->db->createCommand('SELECT COUNT(' . Phonenumber::tableName() . '_id) FROM ' . Phonenumber::tableName() . ' ph WHERE ph.person_id =' . $id)
+        ->queryScalar();
     }
 }
