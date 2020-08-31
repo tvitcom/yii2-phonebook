@@ -29,7 +29,7 @@ CVS: Git
 
 ```sh
 eval $(ssh-agent -s)
-ssh-add id_rsa_macuser
+ssh-add id_rsa_[yourkeyname]
 cd .../[Your_WWW]/approot
 git clone [current_code_reposytory] .
 php composer.phar update
